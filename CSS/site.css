@@ -5,19 +5,19 @@
 }
 body{
     display: grid;
-    
     grid-template-areas: "header header" 
                          "adds content";
-    grid-template-rows: 3em 1fr;
+    grid-template-rows: 3em auto;
     grid-template-columns: 20em 1fr;
-                          
+    height: 200vh;
 }
 
 @media (min-width:780px){
     .top-menu{
-        grid-area: "header";
-        grid-column: span 2;
+        grid-area: header;
         background-color:#B6B0A9;
+        position: sticky;
+        top:0;
     }
     /* .top-menu{
         position: sticky;
@@ -46,4 +46,17 @@ body{
         background-color: #CEC6B9;
     }
 
+    .content{
+        grid-area: content;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: minmax(5em,10em);
+        grid-gap: 2em;
+    }
+
+    .content-item{
+        min-height: 5em;
+        box-shadow: 4px 4px 4px 1px aqua;
+        justify-self: stretch;
+    }
 }
