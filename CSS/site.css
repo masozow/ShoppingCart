@@ -1,3 +1,12 @@
+/*
+    color palette: light to dark
+    #E8DFD6
+    #C8C8BC
+    #FDFCF8
+    #919690
+    #7D7E76
+*/
+@import url(https://cdn.iconmonstr.com/1.3.0/css/iconmonstr-iconic-font.min.css);
 * {
     margin:0;
     padding:0;
@@ -9,16 +18,37 @@ body{
                          "adds content";
     grid-template-rows: 3em auto;
     grid-template-columns: 20em 1fr;
-    height: 200vh;
+}
+.top-menu{
+    grid-area: header;
+    background-color:#B6B0A9;
+    position: sticky;
+    top:0;
+    z-index: 4;
 }
 
+.menu-shoppingCart{
+    position: absolute;
+    top:0.75em;
+    right: 1.5em;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: 0.3s;
+    z-index: 4;
+}
+.menu-shoppingCart::after{
+    content: attr(data-products-count);
+    font-size: 0.90em;
+    position: absolute;
+    top: -1em;
+    right: -1em;
+    /* border-radius: 50%;
+    border:1px solid white; */
+    font-weight: bold;
+}
 @media (min-width:780px){
-    .top-menu{
-        grid-area: header;
-        background-color:#B6B0A9;
-        position: sticky;
-        top:0;
-    }
+    
     /* .top-menu{
         position: sticky;
         left:0;
@@ -45,18 +75,132 @@ body{
         color:#FFFFFF;
         background-color: #CEC6B9;
     }
-
+    
     .content{
+        padding:0.5rem;
         grid-area: content;
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-auto-rows: minmax(5em,10em);
-        grid-gap: 2em;
+        grid-template-columns: repeat(auto-fit, minmax(10em,13em));
+        grid-auto-rows: minmax(10em,15em);
+        justify-content: space-evenly;
+        row-gap: 3em;
+        column-gap: 2em;
+        /*grid-gap: minmax(3em,auto);*/
     }
 
     .content-item{
-        min-height: 5em;
-        box-shadow: 4px 4px 4px 1px aqua;
-        justify-self: stretch;
+        min-height: 10em;
+        box-shadow: 4px 4px 4px 1px #CDCDCD;
+        transition: 0.2s;
+        text-align: center;
+        position: relative;
+    }
+    .content-item:hover{
+        box-shadow: 2px 2px 6px 1px #E8DFD6;
+        border-radius: 5px;
+    }
+
+    .img-container{
+        margin-top: 0.5em;
+        margin-left: 0.5em;
+        width: 12em;
+        height: 8em;
+        background-color: #7D7E76;
+        position: relative;
+    }
+    .img-container>img{
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+    }
+    .img-container::before{
+        content:'';
+        width: 10.6em;
+        height: 6.9em;
+        border-top: 2px solid white;
+        border-bottom: 2px solid white;
+        display: block;
+        position:absolute;
+        left: 5%;
+        top: 4%;
+        z-index: 2;
+        opacity: 1;
+        transform:scaleX(0);
+        transition: transform linear 0.3s;
+    }
+    .img-container::after{
+        content:'';
+        width: 10.5em;
+        height: 7.1em;
+        border-right: 2px solid white;
+        border-left: 2px solid white;
+        display: block;
+        position:absolute;
+        left: 5%;
+        top: 4%;	
+        z-index: 2;
+        opacity: 0;
+        transform:scaleY(0);
+        transition: transform linear 0.3s;
+    }
+    .content-item:hover .img-container::before{
+        opacity: 1;
+        transform:scaleX(1);
+    }
+    .content-item:hover .img-container::after{
+        opacity: 1;
+        transform:scaleY(1);
+    }
+    .content-item:hover .img-container img{
+        opacity: 0.4;
+    }
+
+
+    
+    .shoppingCart{
+        position: absolute;
+        top:0.75em;
+        right: 1.5em;
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+        opacity: 0;
+        transition: 0.3s;
+        z-index: 0;
+    }
+    .img-text{
+        color: white;
+        font-weight: bold;
+        position: absolute;
+        top: 50%;
+        left: 2em;
+        right: 2em;
+        text-decoration: none;
+        opacity: 0;
+        z-index: 0;
+        padding: 0.5em;
+        border: 2px solid white;
+        transition: 0.3s;
+    }
+    .content-item:hover .shoppingCart,.content-item:hover .img-text{
+        opacity: 1;
+        pointer-events: all;
+        z-index: 3;
+    }
+    .text-container{
+        margin: 0.5em;
+        padding-right: 0.5em;
+        position: relative;
+        width: 12em;
+        height: 5em;
+        overflow: auto;
+        text-align: right; 
+    }
+    .price{
+        color: #7D7E76;
+        font-weight: bold;
+    }
+    .item-text{
+        font-weight: 200;
     }
 }
