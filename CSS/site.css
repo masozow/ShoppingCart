@@ -5,6 +5,10 @@
     #FDFCF8
     #919690
     #7D7E76
+    red:
+    #AF261C
+    orange:
+    #A75103
 */
 
 @import url(https://cdn.iconmonstr.com/1.3.0/css/iconmonstr-iconic-font.min.css);
@@ -68,9 +72,7 @@ body{
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
-    /*text-align: center;*/
     justify-items: center;
-    /*position: relative;*/
 }
 .content-item:hover{
     box-shadow: 2px 2px 6px 1px #E8DFD6;
@@ -130,17 +132,7 @@ body{
 
 
 
-.shoppingCart{
-    position: absolute;
-    top:0.75rem;
-    right: 1.5rem;
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-    opacity: 0;
-    transition: 0.3s;
-    z-index: 0;
-}
+
 .img-text{
     color: white;
     font-weight: bold;
@@ -177,6 +169,22 @@ body{
 .item-text{
     font-weight: 200;
 }
+.product-name{
+    font-weight: bold;
+    color:#919690;
+}
+.shoppingCart{
+    position: absolute;
+    top:0.75rem;
+    right: 1.5rem;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    opacity: 0;
+    transition: 0.3s;
+    z-index: 0;
+}
+
 .shoppingCart::after{
     content: attr(data-tooltip);
     position: absolute;
@@ -191,13 +199,19 @@ body{
     transition: 0.3s;
     text-align: center;
 }
-.shoppingCart:hover::after{
+.shoppingCart:hover::after,.shoppingCart:hover::before{
     opacity: 1;
 }
 
-.text-container>strong{
-    color:#919690;       
+.shoppingCart-added{
+    color:#A75103;
+    background-color: rgba(255, 255, 255, 0.8);
+    border:1px solid #AF261C;
+    padding: 0.3rem;
+    border-radius: 50%;
+    transform: translate(0.3rem,-0.3rem);
 }
+
 
 @media (min-width:780px){
 
