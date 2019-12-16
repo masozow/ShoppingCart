@@ -7,14 +7,19 @@ else{
 
 const products=[];
 const _shoppingCart=document.querySelector('#shopping_cart');
-
 function ready(){
+    window.addEventListener('storage',(e)=>{
+        setShoppingCartCounter();
+    });
     const items = document.querySelectorAll('.content-item');
     items.forEach((item)=>{
         setShoppingCartClickEvent(item);
     });
 }
-
+async function setShoppingCartCounter(){
+    const storedProducts= await JSON.parse(localStorage.getItem('_shoppingCartProducts'));
+    _shoppingCart.dataset.productsCount=storedProducts.length;    
+}
 function setShoppingCartClickEvent(shoppingCartItem){
     let shoppingCart = shoppingCartItem.querySelector('.im-shopping-cart');
     shoppingCart.addEventListener('click',(e)=>{
@@ -22,14 +27,10 @@ function setShoppingCartClickEvent(shoppingCartItem){
         setShoppingCartProductsList(e.target);
     });
 }
-function changeShoppingCartCounter(quantity){
-    const _shoppingCartCounter = Number.parseInt(_shoppingCart.dataset.productsCount);
-    _shoppingCart.dataset.productsCount=_shoppingCartCounter+quantity;
-}
+
 async function setShoppingCartProductsList(caller){
     if(products.filter(prod=>prod.id==caller.id).length>0)
     {
-        changeShoppingCartCounter(-1);
         const indexOfID = products.findIndex(prod=>prod.id==caller.id);
         products.splice(indexOfID,1);
         caller.classList.remove('shoppingCart-added');
@@ -37,12 +38,14 @@ async function setShoppingCartProductsList(caller){
     }
     else
     {
-        changeShoppingCartCounter(1);
         products.push(productObjectFormatter(caller));
         caller.classList.add('shoppingCart-added');
         caller.dataset.tooltip="Remove from cart";
+        
     }
     await window.localStorage.setItem('_shoppingCartProducts',JSON.stringify(products));
+    setShoppingCartCounter();
+    //_shoppingCart.dataset.productsCount=products.length;
 }
 
 function productObjectFormatter(caller){
