@@ -46,7 +46,7 @@ async function setShoppingCartProductsList(getStoredInfoFunction,localSotorageIt
         storedProducts.push(productObjectFormatter(caller));
         caller.dataset.tooltip = "Remove from cart";
     }
-    await window.localStorage.setItem('_shoppingCartProducts',JSON.stringify(storedProducts));
+    await window.localStorage.setItem(localSotorageItem,JSON.stringify(storedProducts));
     await updateSelectedShoppingCartsClass();
     await setShoppingCartCounter();
 }
