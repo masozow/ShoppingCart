@@ -15,23 +15,23 @@ function ready(){
     });
     const items = document.querySelectorAll('.content-item');
     items.forEach((item)=>{
-        setShoppingCartClickEvent(item);
+        setShoppingCartClickEvent(item,'.im-shopping-cart');
     });
 }
 async function setShoppingCartCounter(){
     const storedProducts= await JSON.parse(localStorage.getItem('_shoppingCartProducts'));
     _shoppingCart.dataset.productsCount=storedProducts!=null?storedProducts.length:0;    
 }
-function setShoppingCartClickEvent(shoppingCartItem){
-    let shoppingCart = shoppingCartItem.querySelector('.im-shopping-cart');
+function setShoppingCartClickEvent(shoppingCartItem,cartIconClass){
+    let shoppingCart = shoppingCartItem.querySelector(cartIconClass);
     shoppingCart.addEventListener('click',(e)=>{
         /*e.stopPropagation();*/
-        setShoppingCartProductsList(e.target);
+        setShoppingCartProductsList(getStoredProducts,_productsItem,e.target);
     });
 }
 
-async function setShoppingCartProductsList(caller){
-    let storedProducts = await getStoredProducts(_productsItem);
+async function setShoppingCartProductsList(getStoredInfoFunction,localSotorageItem,caller){
+    let storedProducts = await getStoredInfoFunction(arguments[1]);
     if (storedProducts!=null && storedProducts.filter(prod => prod.id == caller.id).length > 0) {
         const indexOfID = storedProducts.findIndex(prod => prod.id == caller.id);
         storedProducts.splice(indexOfID, 1);
