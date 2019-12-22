@@ -59,7 +59,7 @@ body{
     font-size: 0.90em;
     position: absolute;
     top: -1rem;
-    right: -1rem;
+    right: -0.5rem;
     font-weight: bold;
 }
 .top-menu ul{

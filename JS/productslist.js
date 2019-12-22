@@ -1,12 +1,12 @@
+const _shoppingCart=document.querySelector('#shopping_cart');
+const _productsItem='_shoppingCartProducts';
+
 if(document.readyState=='loading'){
     document.addEventListener('DOMContentLoaded',ready)
 }
 else{
     ready();
 }
-
-const _shoppingCart=document.querySelector('#shopping_cart');
-const _productsItem='_shoppingCartProducts';
 
 function ready(){
     let _windowInstances=0;
@@ -17,13 +17,13 @@ function ready(){
     }
     window.addEventListener('storage',(e)=>{
         setShoppingCartCounter('_shoppingCartProducts');
-        updateSelectedShoppingCartsClass('.content','.shoppingCart','shoppingCart-added');
+        updateSelectedShoppingCartsClass('.content','.shoppingCart','shoppingCart-added','Add to cart','Remove from cart');
     });
     const items = document.querySelectorAll('.content-item');
     items.forEach((item)=>{
         setShoppingCartClickEvent(item,'.im-shopping-cart');
     });
-    updateSelectedShoppingCartsClass('.content','.shoppingCart','shoppingCart-added');
+    updateSelectedShoppingCartsClass('.content','.shoppingCart','shoppingCart-added','Add to cart','Remove from cart');
     setShoppingCartCounter('_shoppingCartProducts');
 }
 async function setShoppingCartCounter(classToApplyCounter){
@@ -34,16 +34,15 @@ function setShoppingCartClickEvent(shoppingCartItem,cartIconClass){
     let shoppingCart = shoppingCartItem.querySelector(cartIconClass);
     shoppingCart.addEventListener('click',(e)=>{
         /*e.stopPropagation();*/
-        setShoppingCartProductsList(getStoredProducts,_productsItem,e.target);
+        setShoppingCartProductsList(getStoredProducts,_productsItem,e.target,"Add to cart","Remove from cart");
     });
 }
 
-async function setShoppingCartProductsList(getStoredInfoFunction,localSotorageItem,caller){
+async function setShoppingCartProductsList(getStoredInfoFunction,localSotorageItem,caller,messageWhenAdd,MessageWhenRemove){
     let storedProducts = await getStoredInfoFunction(arguments[1]);
     if (storedProducts!=null && storedProducts.filter(prod => prod.id == caller.id).length > 0) {
         const indexOfID = storedProducts.findIndex(prod => prod.id == caller.id);
         storedProducts.splice(indexOfID, 1);
-        caller.dataset.tooltip = "Add to cart";
     }
     else {
         if(storedProducts===null)
@@ -51,10 +50,9 @@ async function setShoppingCartProductsList(getStoredInfoFunction,localSotorageIt
             storedProducts=[];
         }
         storedProducts.push(productObjectFormatter(caller));
-        caller.dataset.tooltip = "Remove from cart";
     }
     await window.localStorage.setItem(localSotorageItem,JSON.stringify(storedProducts));
-    await updateSelectedShoppingCartsClass('.content','.shoppingCart','shoppingCart-added');
+    await updateSelectedShoppingCartsClass('.content','.shoppingCart','shoppingCart-added','Add to cart','Remove from cart');
     await setShoppingCartCounter('_shoppingCartProducts');
 }
 
@@ -71,7 +69,7 @@ function productObjectFormatter(caller){
 async function getStoredProducts(item){
     return await JSON.parse(localStorage.getItem(item));
 }
-async function updateSelectedShoppingCartsClass(containerClass,shoppingCartClass, classToAdd){
+async function updateSelectedShoppingCartsClass(containerClass,shoppingCartClass, classToAdd, messageWhenAdd,MessageWhenRemove){
     const _content=document.querySelector(containerClass);
     const existingShoppingCarts=_content.querySelectorAll(shoppingCartClass);
     const storedProducts= await getStoredProducts(_productsItem);
@@ -83,8 +81,10 @@ async function updateSelectedShoppingCartsClass(containerClass,shoppingCartClass
     let removeClass=existingShoppingCartsIDs.filter(item=>!storedIDs.includes(item));
     storedIDs.forEach(elementID => {
         _content.querySelector('#\\3'+elementID+" ").classList.add(classToAdd);
+        _content.querySelector('#\\3'+elementID+" ").dataset.tooltip=MessageWhenRemove;
     });
     removeClass.forEach(elementID => {
         _content.querySelector('#\\3'+elementID+" ").classList.remove(classToAdd);
+        _content.querySelector('#\\3'+elementID+" ").dataset.tooltip=messageWhenAdd;
     });
 }
