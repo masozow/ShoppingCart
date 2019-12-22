@@ -9,17 +9,25 @@ const _shoppingCart=document.querySelector('#shopping_cart');
 const _productsItem='_shoppingCartProducts';
 
 function ready(){
+    let _windowInstances=0;
+    try {
+        
+    } catch (error) {
+        
+    }
     window.addEventListener('storage',(e)=>{
-        setShoppingCartCounter();
-        updateSelectedShoppingCartsClass();
+        setShoppingCartCounter('_shoppingCartProducts');
+        updateSelectedShoppingCartsClass('.content','.shoppingCart','shoppingCart-added');
     });
     const items = document.querySelectorAll('.content-item');
     items.forEach((item)=>{
         setShoppingCartClickEvent(item,'.im-shopping-cart');
     });
+    updateSelectedShoppingCartsClass('.content','.shoppingCart','shoppingCart-added');
+    setShoppingCartCounter('_shoppingCartProducts');
 }
-async function setShoppingCartCounter(){
-    const storedProducts= await JSON.parse(localStorage.getItem('_shoppingCartProducts'));
+async function setShoppingCartCounter(classToApplyCounter){
+    const storedProducts= await JSON.parse(localStorage.getItem(classToApplyCounter));
     _shoppingCart.dataset.productsCount=storedProducts!=null?storedProducts.length:0;    
 }
 function setShoppingCartClickEvent(shoppingCartItem,cartIconClass){
@@ -41,14 +49,13 @@ async function setShoppingCartProductsList(getStoredInfoFunction,localSotorageIt
         if(storedProducts===null)
         {
             storedProducts=[];
-            console.log(storedProducts);
         }
         storedProducts.push(productObjectFormatter(caller));
         caller.dataset.tooltip = "Remove from cart";
     }
     await window.localStorage.setItem(localSotorageItem,JSON.stringify(storedProducts));
-    await updateSelectedShoppingCartsClass();
-    await setShoppingCartCounter();
+    await updateSelectedShoppingCartsClass('.content','.shoppingCart','shoppingCart-added');
+    await setShoppingCartCounter('_shoppingCartProducts');
 }
 
 function productObjectFormatter(caller){
@@ -64,9 +71,9 @@ function productObjectFormatter(caller){
 async function getStoredProducts(item){
     return await JSON.parse(localStorage.getItem(item));
 }
-async function updateSelectedShoppingCartsClass(){
-    const _content=document.querySelector('.content');
-    const existingShoppingCarts=_content.querySelectorAll('.shoppingCart');
+async function updateSelectedShoppingCartsClass(containerClass,shoppingCartClass, classToAdd){
+    const _content=document.querySelector(containerClass);
+    const existingShoppingCarts=_content.querySelectorAll(shoppingCartClass);
     const storedProducts= await getStoredProducts(_productsItem);
     const storedIDs=storedProducts.map(p=>p.id);
     const existingShoppingCartsIDs=[];
@@ -75,9 +82,9 @@ async function updateSelectedShoppingCartsClass(){
     }
     let removeClass=existingShoppingCartsIDs.filter(item=>!storedIDs.includes(item));
     storedIDs.forEach(elementID => {
-        _content.querySelector('#\\3'+elementID+" ").classList.add('shoppingCart-added');
+        _content.querySelector('#\\3'+elementID+" ").classList.add(classToAdd);
     });
     removeClass.forEach(elementID => {
-        _content.querySelector('#\\3'+elementID+" ").classList.remove('shoppingCart-added');
+        _content.querySelector('#\\3'+elementID+" ").classList.remove(classToAdd);
     });
 }
