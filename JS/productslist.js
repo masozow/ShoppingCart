@@ -80,11 +80,13 @@ async function updateSelectedShoppingCartsClass(containerClass,shoppingCartClass
     }
     let removeClass=existingShoppingCartsIDs.filter(item=>!storedIDs.includes(item));
     storedIDs.forEach(elementID => {
-        _content.querySelector('#\\3'+elementID+" ").classList.add(classToAdd);
-        _content.querySelector('#\\3'+elementID+" ").dataset.tooltip=MessageWhenRemove;
+        const wantedElement=_content.querySelector('#\\3'+elementID+" ");
+        wantedElement.classList.add(classToAdd);
+        wantedElement.dataset.tooltip=MessageWhenRemove;
     });
     removeClass.forEach(elementID => {
-        _content.querySelector('#\\3'+elementID+" ").classList.remove(classToAdd);
-        _content.querySelector('#\\3'+elementID+" ").dataset.tooltip=messageWhenAdd;
+        const wantedElement=_content.querySelector('#\\3'+elementID+" ");
+        wantedElement.classList.remove(classToAdd);
+        wantedElement.dataset.tooltip=messageWhenAdd;
     });
 }
