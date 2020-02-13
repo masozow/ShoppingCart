@@ -80,6 +80,8 @@ body{
     margin-left: -1rem;
     background-color: #CEC6B9;
     display: block;
+    color:#7D7E76;
+    font-weight: bold;
 }
 .mobile-menu__container:hover{
     text-shadow: 3px 3px 1px #CEC6B9;
