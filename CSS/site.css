@@ -43,7 +43,61 @@ body{
     top:0;
     z-index: 4;
 }
+.desktop-menu__container{
+    display: none;
+}
+.desktop-menu__container ul{
+    font-size: 0;
+}
 
+
+
+.mobile-menu__button{
+    color: white;
+    padding: 0.5em 0.7em;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    background-color: #B6B0A9;
+    text-align: center;
+
+}
+.mobile-menu__container{
+    display: inline-block;
+    position: absolute;
+    color: white;
+    text-align: center;
+    padding: 0.2em;
+}
+.mobile-menu__content{
+    display: none;
+    position: absolute;
+}
+.mobile-menu__content a{
+    margin: 0;
+    text-decoration: none;
+    padding: 0rem 2rem;
+    margin-left: -1rem;
+    background-color: #CEC6B9;
+    display: block;
+}
+.mobile-menu__container:hover{
+    text-shadow: 3px 3px 1px #CEC6B9;
+}
+.mobile-menu__container:hover .mobile-menu__button{
+    background-color: #CEC6B9;
+}
+.mobile-menu__container:hover .mobile-menu__content{
+    display: block;
+}
+.mobile-menu__container a:hover{
+    background-color:#B6B0A9;
+    color: white;
+}
+.mobile-menu__container:hover ul{
+    display: inline-block;
+    background-color: #CEC6B9;
+}
 .menu-shoppingCart{
     position: absolute;
     top:0.75rem;
@@ -234,7 +288,10 @@ body{
         grid-template-rows: 3rem auto;
         grid-template-columns: 20rem 1fr;
     }
-    .top-menu ul li{
+    .desktop-menu__container{
+        display: inline-block;
+    }
+    .desktop-menu__container ul li{
         display: inline-block;
         margin: 0.85rem 0;
     }
@@ -248,5 +305,11 @@ body{
     .menu-item:hover{
         color:#FFFFFF;
         background-color: #CEC6B9;
+    }
+    .top-menu ul li{
+        font-size: 1rem;
+    }
+    .mobile-menu__container{
+        display: none;
     }
 }
